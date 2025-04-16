@@ -5,3 +5,4 @@ nltk
 scikit-learn
 openai
 protobuf
+sentencepiece
