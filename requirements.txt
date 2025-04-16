@@ -4,3 +4,4 @@ transformers
 nltk
 scikit-learn
 openai
+protobuf
