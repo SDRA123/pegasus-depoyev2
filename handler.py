@@ -25,7 +25,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Load model
 model_name = "nsi319/legal-pegasus"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(device)
+tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
 
 # GPT API Key (ideally, load from environment variable or secret store)
 api_key = "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"
