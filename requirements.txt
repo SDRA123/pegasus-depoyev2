@@ -1,0 +1,6 @@
+runpod
+torch
+transformers
+nltk
+scikit-learn
+openai
