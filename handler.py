@@ -11,7 +11,9 @@ import openai
 
 # Download NLTK data
 nltk.download('punkt')
-
+nltk.download('punkt_tab')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 # Constants
 SIMILARITY_THRESHOLD = 0.6
 MIN_SUMMARY_TOKENS = 20
