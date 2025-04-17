@@ -26,11 +26,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model
 model_name = "nsi319/legal-pegasus"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
 
-# GPT API Key (ideally, load from environment variable or secret store)
-api_key = "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"
 
 # --- Helper Functions ---
 def clean_text(text):
@@ -95,27 +92,8 @@ def summarize_document(doc_text):
             generated_summary.append(summary)
 
     final_summary = ' '.join(OrderedDict.fromkeys(sent_tokenize(' '.join(generated_summary))))
-    rephrased = rephrase_summary_with_gpt(final_summary, api_key)
-    return rephrased
-
-def rephrase_summary_with_gpt(summary_text, api_key):
-    client = openai.OpenAI(api_key=api_key)
-    response = client.chat.completions.create(
-        model='gpt-4o-mini',
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a legal expert AI that summarizes legal documents, you rephrase the already generated summaries"
-            },
-            {
-                "role": "user",
-                "content": f"Revise the generated summary to fix issues like focus shift and conciseness: {summary_text}"
-            }
-        ],
-        temperature=0.3,
-        max_tokens=1024
-    )
-    return response.choices[0].message.content.strip()
+    
+    return final_summary
 
 # --- RunPod Handler ---
 def handler(job):
