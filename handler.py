@@ -29,7 +29,7 @@ model_name = "nsi319/legal-pegasus"
 tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(device)
 
-
+api_key = "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"
 # --- Helper Functions ---
 def clean_text(text):
     text = re.sub(r'[\r\n\t]+', ' ', text)
@@ -53,7 +53,24 @@ def split_into_chunks(sentences, chunk_size):
     if current_chunk:
         chunks.append(' '.join(current_chunk))
     return chunks
-
+def rephrase_summary_with_gpt(summary_text, api_key):
+    client = openai.OpenAI(api_key=api_key)
+    response = client.chat.completions.create(
+        model='gpt-4o-mini',
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a legal expert AI that summarizes legal documents, you rephrase the already generated summaries"
+            },
+            {
+                "role": "user",
+                "content": f"Revise the generated summary to fix issues like focus shift and conciseness: {summary_text}"
+            }
+        ],
+        temperature=0.3,
+        max_tokens=1024
+    )
+    return response.choices[0].message.content.strip()
 def summarize_document(doc_text):
     cleaned_text = clean_text(doc_text)
     doc_sentences = sent_tokenize(cleaned_text)
@@ -93,8 +110,9 @@ def summarize_document(doc_text):
             generated_summary.append(summary)
 
     final_summary = ' '.join(OrderedDict.fromkeys(sent_tokenize(' '.join(generated_summary))))
+    rephrased = rephrase_summary_with_gpt(final_summary, api_key)
     
-    return final_summary
+    return rephrased
 
 # --- RunPod Handler ---
 def handler(job):
