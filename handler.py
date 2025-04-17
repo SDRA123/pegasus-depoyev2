@@ -27,6 +27,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Load model
 model_name = "nsi319/legal-pegasus"
 tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
+model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(device)
 
 
 # --- Helper Functions ---
