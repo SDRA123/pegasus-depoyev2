@@ -106,7 +106,7 @@ def handler(job):
             return {"error": "No 'prompt' field provided in input."}
 
         summary = summarize_document(document_text)
-        return {"summary": summary}
+        return summary
 
     except Exception as e:
         return {"error": str(e)}
