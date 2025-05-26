@@ -101,9 +101,9 @@ def summarize_document(doc_text):
 def handler(job):
     try:
         job_input = job["input"]
-        document_text = job_input.get("text", "")
+        document_text = job_input.get("prompt", "")
         if not document_text:
-            return {"error": "No 'text' field provided in input."}
+            return {"error": "No 'prompt' field provided in input."}
 
         summary = summarize_document(document_text)
         return {"summary": summary}
