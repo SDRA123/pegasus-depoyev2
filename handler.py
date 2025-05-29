@@ -19,7 +19,7 @@ SIMILARITY_THRESHOLD = 0.6
 MIN_SUMMARY_TOKENS = 20
 MAX_SUMMARY_TOKENS = 150
 MIN_COSINE_SIMILARITY = 0.5
-SUMMARY_RATIO = 0.22
+SUMMARY_RATIO = 0.3
 
 # Load device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
